@@ -12,6 +12,31 @@ function(message, callback) {
   }
 });//*/
 
+var React = {
+	Default : () => false;
+}
+
+var Action = {
+	Do = function(order){
+		chrome.tabs.getSelected(
+			null,
+			function(tab) {
+			    chrome.tabs.sendRequest(tab.id, {
+					greeting: order}, 
+					function(response) {
+						(React[response.act] || React.Default)(
+							response.args
+						);
+						//temp:
+						alert(response.farewell);
+					}
+			    );
+			}
+		);		
+	}
+}
+	
+
 
 window.onload = function(){
 	
@@ -20,12 +45,13 @@ window.onload = function(){
 	contextBtn.onclick = function(){
 		alert('-i');
 
+
 		//двустороннее взаимодействие с расширением
 		chrome.tabs.getSelected(
 			null,
 			function(tab) {
 			    chrome.tabs.sendRequest(tab.id, {
-					greeting: "hello"}, 
+					greeting: "turn"}, 
 					function(response) {
 						alert(response.farewell);
 					}
@@ -36,7 +62,7 @@ window.onload = function(){
 	}
 
 	//одностороннее взаимодействие с расширением
-	// что-то сделать там на основе действий тут
+	// делаем там на основе действий тут
 	// можно разово выполнять файл, если он не подключен
 	linksBtn.onclick = function(){
 		
@@ -57,7 +83,7 @@ window.onload = function(){
 		
 	}
 	
-	//обратная связь
+	//обратная связь: делаем тут на основе контентных обработок
 	chrome.runtime.onMessage.addListener(
 		function(request,sender,callback){
 
