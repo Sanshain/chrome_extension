@@ -17,18 +17,21 @@ var React = {
 }
 
 var Action = {
-	Do = function(order){
+	Do = function(_order){
 		chrome.tabs.getSelected(
 			null,
 			function(tab) {
 			    chrome.tabs.sendRequest(tab.id, {
-					greeting: order}, 
+					
+						order : _order
+					}, 
 					function(response) {
+						
 						(React[response.act] || React.Default)(
 							response.args
 						);
-						//temp:
-						alert(response.farewell);
+						
+						alert(response.farewell);//temp:
 					}
 			    );
 			}
@@ -40,24 +43,10 @@ var Action = {
 
 window.onload = function(){
 	
-	
 
 	contextBtn.onclick = function(){
-		alert('-i');
 
-
-		//двустороннее взаимодействие с расширением
-		chrome.tabs.getSelected(
-			null,
-			function(tab) {
-			    chrome.tabs.sendRequest(tab.id, {
-					greeting: "turn"}, 
-					function(response) {
-						alert(response.farewell);
-					}
-			    );
-			}
-		);
+		Action.Do('turn');
 
 	}
 
@@ -84,6 +73,8 @@ window.onload = function(){
 	}
 	
 	//обратная связь: делаем тут на основе контентных обработок
+	
+	//возможно, на основе callback можно и выполнить что-то в контенте
 	chrome.runtime.onMessage.addListener(
 		function(request,sender,callback){
 

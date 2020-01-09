@@ -5,29 +5,32 @@ dom.get_s = document.querySelectorAll;
 //происходит при загрузке страницы
 alert('content_page_initialize');
 
+var react = {
+	'turn' : GetcontextMnu,
+}
 
 //двустороннее взаимодействие с расширением
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
-	  
-		if (request.greeting == "hello")
+
+		sendResponse({ 
+			act: react[request.order]() 
+		});
 		
-			sendResponse({farewell: "goodbye"});
-		else
-			
-			sendResponse({}); // snub them.
-});
+	}
+);
 
 
-
-(function GetcontextMnu(){
-	
-	alert(0);
+/*!
+	\brief ¬озвращает контекстное меню. Ќичего не возвращает
+*/
+function GetcontextMnu(){
 	
 	var elems = document.querySelectorAll('*');
 	var ar = [].slice.call(elems);
-	ar.forEach((e) => e.oncontextmenu = function(){return true});
-});
+	ar.forEach((e) => e.oncontextmenu = function(){return true});	
+	
+}
 
 
 (function Turn_links() {
