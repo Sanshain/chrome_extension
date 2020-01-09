@@ -1,0 +1,25 @@
+{
+	"manifest_version": 2,
+	"name": "Sotis Unlock",
+	"description": "Анализатор страницы в sotis",
+	"version": "1.0.0",
+	"icons": {"128": "images/mini_logo.png"},
+	"browser_action": {
+		"default_icon": "images/icon.png",
+		"default_popup": "popup.html"
+	},
+    "content_scripts":[
+        {
+            "matches": [
+                "http://vedmark.ru/",
+                "https://*.ru/*",
+            "http://*.ru/*"
+            ],
+            "css" : [],
+            "js": ["js/content_script.js"]
+        }
+    ],	
+    "permissions": [
+      "activeTab"
+    ]
+}
