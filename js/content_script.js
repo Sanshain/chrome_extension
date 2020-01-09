@@ -16,9 +16,10 @@ var react = {
 //двустороннее взаимодействие с расширением
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
-
+		
+		var res = react[request.order]();
 		sendResponse({ 
-			act: react[request.order]() 
+			act: res 
 		});
 		
 	}
@@ -74,18 +75,29 @@ function Turn_links() {
 	var container = dom.createElement('div');
 	var content = dom.createElement('textarea');
 	var close = dom.createElement('buttom');	
+	var save = dom.createElement('buttom');	
 	
 	container.id = '_id_container';
 	container.className = '__container';
 	content.className = '__content';
-	content.className = '__close';
+	close.className = '__btn __close';
+	save.className = '_btn __save';
+	close.title = 'закрыть';
+	save.title = 'сохранить';	
 	
 	content.value = links;
-	content.body.appendChild(close);
-	container.body.appendChild(content);
-	dom.body.appendChild(container);
+	container.appendChild(content);
+	container.appendChild(close);
 	
-	content.onclick = function(){
+	if (document.body.firstElementChild){
+		
+		dom.body.insertBefore(container, dom.body.firstElementChild);
+	}
+	else 
+		dom.body.appendChild(container);
+	
+	close.onclick = function(){
+		
 		container.parentNode.removeChild(container);
 	};
 

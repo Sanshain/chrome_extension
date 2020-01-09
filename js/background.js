@@ -1,3 +1,4 @@
+//https://developer.chrome.com/extensions/background_pages
 
 /*!
 	\brief Происходит при инсталляции расширения:
@@ -18,28 +19,27 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 */
 
-
+/*
 chrome.bookmarks.onCreated.addListener(function() {
 	
 	alert('bookmarks.onCreated');
 });
-
+*/
 
 
 chrome.runtime.onMessage.addListener(function(message, callback) {
-	
+
 	if (message.data == 'setAlarm') {
 		alert('setAlarm');
-		chrome.alarms.create({delayInMinutes: 5});
+
 		
 	} else if (message.data == 'runLogic') {
 		alert('runLogic');
-		chrome.tabs.executeScript({file: 'logic.js'});
+
 		
 	} else if (message.data == 'changeColor') {
 		
 		alert('changeColor');
-		chrome.tabs.executeScript(
-			{code: 'document.body.style.backgroundColor="orange"'});
+
 	};
 });
