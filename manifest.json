@@ -19,6 +19,7 @@
                 "http://skyschool.emdesell.ru/*"
             ],
             "css" : ["css/style.css"],
+			"images" : ["images/close.svg"],
             "js": ["js/content_script.js"]
         }
     ],	

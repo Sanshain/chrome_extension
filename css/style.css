@@ -39,11 +39,11 @@
 	background-color:orange;	
     top: calc(25vh - 15px);
 	right:40px;
-	background-image: url(image/close.svg) no-repeat;
+	background-image: url(image/close.svg);
 }
 .__save{
 	background-color:green;	
     bottom: calc(25vh - 15px);
 	left:40px;
-	background-image: url(image/close.svg) no-repeat;
+
 }
