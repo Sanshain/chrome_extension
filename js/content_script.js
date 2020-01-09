@@ -42,7 +42,16 @@ chrome.extension.onRequest.addListener(
 	}
 );
 
+chrome.runtime.onMessage.addListener(function(message, callback) {
 
+	if (message.action == 'show_links') {
+
+		
+		
+	}
+
+	
+});
 
 
 
@@ -64,11 +73,16 @@ function Init(){
 function Turn_links() {
 
 	
+
 	var links = [].slice.call(dom.get_s(
 		'.c-btn, .c-btn--green, .c-btn--sm'
 	)).filter(e => !e.id).map(e => e.href);
 	
 	alert(links.length);
+	
+	var _title = (dom.get('.c-section__title')||{}).innerText;	
+	var _data  = "u'"+ _title + "' : ";
+	_data+=JSON.stringify(links).replace(/,/g,',\n')+',';	
 	
 	var container = dom.createElement('div');
 	var content = dom.createElement('textarea');
@@ -84,8 +98,12 @@ function Turn_links() {
 	save.title = 'сохранить';	
 	save.innerText = 'Save';
 	
-	content.value = (dom.get('.c-section__title') || {}).innerText +' ';
-	content.value+=': '+JSON.stringify(links).replace(/,/g,',\n') + ',';
+	
+	
+	data = data || ()
+	
+	content.value = "u'"+ _title + "' : ";
+	content.value+= JSON.stringify(links).replace(/,/g,',\n')+',';
 	container.appendChild(content);
 	container.appendChild(close);
 	container.appendChild(save);
@@ -101,12 +119,18 @@ function Turn_links() {
 		
 		container.parentNode.removeChild(container);
 	};
-	close.onclick = function(){
-		
-		container.parentNode.removeChild(container);
+	save.onclick = function(){
 		
 		//сохраняем содержимое в какой-то глобальный объект
-		//chrome.runtime.sendMessage('GetcontextMnu');
+		chrome.runtime.sendMessage( 
+			{
+				action : 'save',
+				title : _title, 
+				data : content.value
+			}
+		);		
+		
+		container.parentNode.removeChild(container);
 	};	
 
 	alert('result');
@@ -131,4 +155,36 @@ function video_Link(){
 	}
 	else 
 		return JSON.parse(video.dataset['setup']).sources[0].src;
+}
+
+
+
+
+
+
+
+/*!
+
+*/
+function saveTextAsFile(textToWrite) {
+  
+	var textFileAsBlob = new Blob([ textToWrite ], { 
+		type: 'text/plain' 
+	});
+	var fileNameToSaveAs = "links.txt";
+
+	var downloadLink = document.createElement("a");
+	downloadLink.download = fileNameToSaveAs;
+	downloadLink.innerHTML = "Download File";
+	downloadLink.href = window.webkitURL.createObjectURL(textFileAsBlob);
+	downloadLink.click();
+	
+	//https://fooobar.com/questions/963043/saving-html5-textarea-contents-to-file
+
+	
+
+	setTimeout(() => {
+		downloadLink.parentElement.removeChild(downloadLink);
+	},1000);
+  
 }
