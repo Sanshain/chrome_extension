@@ -36,8 +36,7 @@ var React = {
 			div.innerText = addr;			
 		}
 
-	}
-
+	},
 	
 }
 
@@ -52,11 +51,13 @@ var Action = {
 					}, 
 					function(response) {
 						
-						(React[response.act] || React.Default)(
-							response.args
-						);
+						if (response.act) {
+							(React[response.act] || React.Default)(
+								response.args
+							);
+						}
 						
-						alert(response.act);//temp:
+						//alert(response.act);//temp:
 					}
 			    );
 			}
@@ -96,7 +97,11 @@ window.onload = function(){
 		
 	}
 	
-
+	show_links.onclick = function(){
+		
+		Action.Do('show_links');
+		
+	}
 		
 }
 

@@ -27,7 +27,14 @@ var react = {
 	'turn_menu' : Inject['GetcontextMnu'],
 	'Copy_Turn' : Inject['Copy_Turn'],
 	'get_links' : Turn_links,	
-	'video_Link' : video_Link
+	'video_Link' : video_Link,
+	'show_links' : () => { 
+		chrome.runtime.sendMessage(
+			{ action : 'backg_show_l' },
+			null,			
+			Turn_links
+		) 
+	}
 };
 
 //двустороннее взаимодействие с расширением
@@ -42,16 +49,7 @@ chrome.extension.onRequest.addListener(
 	}
 );
 
-chrome.runtime.onMessage.addListener(function(message, callback) {
 
-	if (message.action == 'show_links') {
-
-		
-		
-	}
-
-	
-});
 
 
 
@@ -70,19 +68,25 @@ function Init(){
 /*!
 	\brief Ищет все ссылки со страницы, удовл. условию
 */
-function Turn_links() {
+function Turn_links(data) {
 
+	var _a = false;
+	var links = [];
 	
+	if (!data){
+		
+		links = [].slice.call(dom.get_s(
+			'.c-btn, .c-btn--green, .c-btn--sm'
+		)).filter(e => !e.id).map(e => e.href);
+		
+		//alert(links.length);
+		
+		var _title = (dom.get('.c-section__title')||{}).innerText;	
+		var _data=_title+" : "+JSON.stringify(links).replace(/,/g,',\n')+',';	
 
-	var links = [].slice.call(dom.get_s(
-		'.c-btn, .c-btn--green, .c-btn--sm'
-	)).filter(e => !e.id).map(e => e.href);
-	
-	alert(links.length);
-	
-	var _title = (dom.get('.c-section__title')||{}).innerText;	
-	var _data  = "u'"+ _title + "' : ";
-	_data+=JSON.stringify(links).replace(/,/g,',\n')+',';	
+		data = _data;
+	} 
+	else _a = true;
 	
 	var container = dom.createElement('div');
 	var content = dom.createElement('textarea');
@@ -97,13 +101,9 @@ function Turn_links() {
 	save.className = '__btn __save';
 	save.title = 'сохранить';	
 	save.innerText = 'Save';
+
 	
-	
-	
-	data = data || ()
-	
-	content.value = "u'"+ _title + "' : ";
-	content.value+= JSON.stringify(links).replace(/,/g,',\n')+',';
+	content.value = data;
 	container.appendChild(content);
 	container.appendChild(close);
 	container.appendChild(save);
@@ -121,19 +121,26 @@ function Turn_links() {
 	};
 	save.onclick = function(){
 		
-		//сохраняем содержимое в какой-то глобальный объект
-		chrome.runtime.sendMessage( 
-			{
-				action : 'save',
-				title : _title, 
-				data : content.value
-			}
-		);		
+		if (_a){ //показать все ссылки
+			
+			saveTextAsFile(data);
+		}
+		else {
+			//сохраняем содержимое в какой-то глобальный объект
+			chrome.runtime.sendMessage( 
+				{
+					action : 'save',
+					title : _title, 
+					data : links 			//content.value
+				}
+			);				
+		}
+	
 		
 		container.parentNode.removeChild(container);
 	};	
 
-	alert('result');
+	//alert('result');
 	
 	
 	content.focus();

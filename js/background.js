@@ -39,7 +39,7 @@ function rename(name, i){
 
 var links = {};
 
-chrome.runtime.onMessage.addListener(function(message, callback) {
+chrome.runtime.onMessage.addListener(function(message, sender, callback) {
 
 	if (message.action == 'save') {
 
@@ -56,14 +56,12 @@ chrome.runtime.onMessage.addListener(function(message, callback) {
 		}
 		else links[message.title] = message.data;
 
-		alert(saved);
+		alert('saved');
 	}
-	else if (message.action == 'show') {
+	else if (message.action == 'backg_show_l') {
 		
-		chrome.runtime.sendMessage( {
-			action : 'show_links',
-			data : links
-		});
+		callback(JSON.stringify(links).replace(/,/g,',\n'));
+		
 	}
 	
 });
