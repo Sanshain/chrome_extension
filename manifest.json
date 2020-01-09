@@ -8,14 +8,18 @@
 		"default_icon": "images/icon.png",
 		"default_popup": "popup.html"
 	},
+	"background": {
+		"scripts": ["js/background.js"],
+		"persistent": false
+	},
     "content_scripts":[
         {
             "matches": [
-                "http://vedmark.ru/",
-                "https://*.ru/*",
-            "http://*.ru/*"
+				"http://vedmark.ru/",
+                "https://skyschool.emdesell.ru/*",
+                "http://skyschool.emdesell.ru/*"
             ],
-            "css" : ["style.css"],
+            "css" : ["css/style.css"],
             "js": ["js/content_script.js"]
         }
     ],	

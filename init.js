@@ -14,6 +14,14 @@ function(message, callback) {
 
 var React = {
 	Default : () => { return false },
+	
+	no_links_page : () => { 
+		linksBtn.style.backgroundColor = 'lightgray';
+		linksBtn.disabled = true; },
+	no_video_page : () => { 
+		videoBtn.style.backgroundColor = 'lightgray';
+		videoBtn.disabled = true; },	
+	
 	video_Link : (args) => {
 		var addr = args[0];
 		
@@ -28,12 +36,13 @@ var React = {
 			div.innerText = addr;			
 		}
 
-	}	
+	}
+
 	
 }
 
 var Action = {
-	Do = function(_order){
+	Do : function(_order){
 		chrome.tabs.getSelected(
 			null,
 			function(tab) {
@@ -47,7 +56,7 @@ var Action = {
 							response.args
 						);
 						
-						alert(response.farewell);//temp:
+						alert(response.act);//temp:
 					}
 			    );
 			}
@@ -58,6 +67,9 @@ var Action = {
 
 
 window.onload = function(){
+	
+	Action.Do("Check");
+	
 	
 
 	contextBtn.onclick = function(){
@@ -75,20 +87,16 @@ window.onload = function(){
 	copyBtn.onclick = function(){
 		
 		Action.Do('Copy_Turn');
+		
 	}
 		
-
+	videoBtn.onclick = function(){
+		
+		Action.Do('video_Link');
+		
+	}
 	
-	//обратная связь: делаем тут на основе контентных обработок
-	
-	//возможно, на основе callback можно и выполнить что-то в контенте
-	chrome.runtime.onMessage.addListener(
-		function(request,sender,callback){
 
-			if (request=='GetcontextMnu') alert('g');
-
-		}
-	);	
 		
 }
 

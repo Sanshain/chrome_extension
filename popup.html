@@ -9,19 +9,24 @@
 		<script src="init.js"></script>
 		
 		<style>
+			body{
+				width: 200px;
+			}
 			button{
 				padding:5px;
 				border-radius:15px;
 				margin:10px;
 				background-color:green;
 				cursor:pointer;
-				transition:0.5s;				
+				transition:0.5s;
+				outline:none;				
 			}
 			button:hover{
 				background-color:#aa0000;
 			}
 			.result{
-				width:100px;
+				width:180px;
+				margin-left: 10px;
 			}
 		</style>
 		
@@ -33,6 +38,7 @@
 		<button id="contextBtn">Вернуть контекстное меню</button>
 		<button id="copyBtn">Разрешить копирование</button>
 		<button id="linksBtn">Получить адреса</button>
+		<button id="videoBtn">Получить url видео</button>
 		
 	</body>
 
