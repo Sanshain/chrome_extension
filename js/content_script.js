@@ -8,7 +8,8 @@ alert('content_page_initialize');
 var react = {
 	'turn_menu' : GetcontextMnu,
 	'get_links' : Turn_links,
-	'Copy_Turn' : Copy_Turn
+	'Copy_Turn' : Copy_Turn,
+	'video_Link' : video_Link
 }
 
 //двустороннее взаимодействие с расширением
@@ -66,7 +67,20 @@ function Turn_links() {
 
 
 function Copy_Turn(){
-	[].slice.call($('*')).forEach(e => e.onselectstart = function() {return true;});
+	[].slice.call(dom.get_s('*')).forEach(e => e.onselectstart = function() {return true;});
 	
-	[].slice.call($('*')).forEach(e => e.oncopy = function() {return true;});
+	[].slice.call(dom.get_s('*')).forEach(e => e.oncopy = function() {return true;});
+}
+
+/*!
+	ѕолучает ссылку на страницу с видео (ютуб)
+*/
+function video_Link(){
+	var video = dom.get('#video-js-0');
+	if (video){
+		alert("Ќа странице нет видеокурса, удовл услови€м");
+		return null;
+	}
+	else 
+		return JSON.parse(video.dataset['setup']).sources[0].src;
 }

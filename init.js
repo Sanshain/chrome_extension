@@ -13,7 +13,23 @@ function(message, callback) {
 });//*/
 
 var React = {
-	Default : () => false;
+	Default : () => { return false },
+	video_Link : (args) => {
+		var addr = args[0];
+		
+		if (!addr) {
+			return;
+		}
+		else {
+			
+			var r = document.createElement('div');
+			div.className = 'result';
+			document.body.appendChild(r);
+			div.innerText = addr;			
+		}
+
+	}	
+	
 }
 
 var Action = {
