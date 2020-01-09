@@ -15,7 +15,7 @@
                 "https://*.ru/*",
             "http://*.ru/*"
             ],
-            "css" : [],
+            "css" : ["style.css"],
             "js": ["js/content_script.js"]
         }
     ],	
@@ -23,3 +23,5 @@
       "activeTab"
     ]
 }
+
+//http://chrome-ext.blogspot.com/2014/02/blog-post_4033.html

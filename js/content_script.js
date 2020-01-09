@@ -6,7 +6,9 @@ dom.get_s = document.querySelectorAll;
 alert('content_page_initialize');
 
 var react = {
-	'turn' : GetcontextMnu,
+	'turn_menu' : GetcontextMnu,
+	'get_links' : Turn_links,
+	'Copy_Turn' : Copy_Turn
 }
 
 //двустороннее взаимодействие с расширением
@@ -33,18 +35,38 @@ function GetcontextMnu(){
 }
 
 
-(function Turn_links() {
-	
-	alert(1);
+/*!
+	\brief »щет все ссылки со страницы, удовл. условию
+*/
+function Turn_links() {
+
 	
 	var links = [].slice.call(dom.get_s(
 		'.c-btn, .c-btn--green, .c-btn--sm'
 	)).filter(e => !e.id).map(e => e.href);
 	
-	var links = dom.get_s('a');
+	var container = dom.createElement('div');
+	var content = dom.createElement('textarea');
+	var content = dom.createElement('buttom');	
 	
-	alert(links.length);
+	container.className = 'container';
+	content.className = 'content';
+	content.className = 'close';
 	
-})();
+	content.value = links;
+	dom.body.appendChild(container);
+	
+	content.onclick = function(){
+		container.parentNode.removeChild(container);
+	}
+
+	
+	
+};
 
 
+function Copy_Turn(){
+	[].slice.call($('*')).forEach(e => e.onselectstart = function() {return true;});
+	
+	[].slice.call($('*')).forEach(e => e.oncopy = function() {return true;});
+}

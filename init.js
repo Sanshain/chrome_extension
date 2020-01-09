@@ -46,31 +46,22 @@ window.onload = function(){
 
 	contextBtn.onclick = function(){
 
-		Action.Do('turn');
+		Action.Do('turn_menu');
 
 	}
 
-	//одностороннее взаимодействие с расширением
-	// делаем там на основе действий тут
-	// можно разово выполнять файл, если он не подключен
 	linksBtn.onclick = function(){
 		
-		chrome.tabs.query(
-			{ 
-				active: true, 
-				currentWindow: true 
-			}, function (tabs) { 
-				chrome.tabs.executeScript(
-					tabs[0].id,
-					{
-						code: 'alert("555")',
-						//file: 'js/content_script.js'
-					}
-				); 
-			}
-		);			
+		Action.Do('get_links');
 		
 	}
+
+	copyBtn.onclick = function(){
+		
+		Action.Do('Copy_Turn');
+	}
+		
+
 	
 	//обратная связь: делаем тут на основе контентных обработок
 	
