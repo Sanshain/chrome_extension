@@ -19,9 +19,14 @@
                 "http://skyschool.emdesell.ru/*"
             ],
             "css" : ["css/style.css"],
-            "js": ["js/content_script.js"]
+            "js": [
+				"js/content_script.js"				
+			]
         }
-    ],	
+    ],
+	"web_accessible_resources": [
+		"js/inject_script_contextmenu.js"
+	],
     "permissions": [
       "activeTab"
     ]

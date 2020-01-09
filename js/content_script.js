@@ -7,11 +7,27 @@ dom.get_s = document.querySelectorAll;
 
 var react = {
 	'Check' : Init,
-	'turn_menu' : GetcontextMnu,
-	'get_links' : Turn_links,
-	'Copy_Turn' : Copy_Turn,
+	'turn_menu' : Inject['GetcontextMnu'],
+	'Copy_Turn' : Inject['Copy_Turn'],
+	'get_links' : Turn_links,	
 	'video_Link' : video_Link
-}
+};
+
+var Inject = {
+	Do : function(src){
+		var script=document.createElement('script');
+		var url = chrome.extension.getURL("js/inject_script_"+src+".js");
+		
+		script.type='text/javascript';
+		script.src= url;
+		
+		document.head.appendChild(script);
+		
+		return true;		
+	},	
+};
+Inject['GetcontextMnu']=Inject.Do.bind(null,"contextmenu");
+Inject['Copy_Turn']=  Inject.Do.bind ( null, "copyselect");
 
 //двустороннее взаимодействие с расширением
 chrome.extension.onRequest.addListener(
@@ -34,30 +50,6 @@ function Init(){
 		return 'no_video_page';
 	}
 }
-
-/*!
-	\brief Возвращает контекстное меню. Ничего не возвращает
-*/
-function GetcontextMnu(){
-	
-	var script=document.createElement('script');
-	script.type='text/javascript';
-	script.src=chrome.extension.getURL("js/sotis.js");
-	
-	
-}
-
-
-
-
-function Copy_Turn(){
-	
-	
-	[].slice.call(dom.get_s('*')).forEach(e => e.onselectstart = function() {return true;});
-	
-	[].slice.call(dom.get_s('*')).forEach(e => e.oncopy = function() {return true;});
-}
-
 
 
 
