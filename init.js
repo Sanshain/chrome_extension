@@ -102,9 +102,3 @@ window.onload = function(){
 
 
 
-/*var script=document.createElement('script');
-script.type='text/javascript';
-script.src=chrome.extension.getURL("js/sotis.js");
-//*/		
-
-//		 <script src="init.js"></script>

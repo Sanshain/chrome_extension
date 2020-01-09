@@ -40,9 +40,10 @@ function Init(){
 */
 function GetcontextMnu(){
 	
-	var elems = document.querySelectorAll('*');
-	var ar = [].slice.call(elems);
-	ar.forEach((e) => e.oncontextmenu = function(){return true});	
+	var script=document.createElement('script');
+	script.type='text/javascript';
+	script.src=chrome.extension.getURL("js/sotis.js");
+	
 	
 }
 
@@ -81,13 +82,15 @@ function Turn_links() {
 	container.className = '__container';
 	content.className = '__content';
 	close.className = '__btn __close';
-	save.className = '_btn __save';
 	close.title = 'закрыть';
+	save.className = '__btn __save';
 	save.title = 'сохранить';	
+	save.innerText = 'Save';
 	
-	content.value = links;
+	content.value = JSON.stringify(links).replace(/,/g,',\n');
 	container.appendChild(content);
 	container.appendChild(close);
+	container.appendChild(save);
 	
 	if (document.body.firstElementChild){
 		
@@ -100,6 +103,12 @@ function Turn_links() {
 		
 		container.parentNode.removeChild(container);
 	};
+	close.onclick = function(){
+		
+		container.parentNode.removeChild(container);
+		
+		//сохраняем содержимое в какой-то глобальный объект
+	};	
 
 	alert('result');
 	
