@@ -25,7 +25,8 @@
         }
     ],
 	"web_accessible_resources": [
-		"js/inject_script_contextmenu.js"
+		"js/inject_script_contextmenu.js",
+		"js/inject_script_copyselect.js"
 	],
     "permissions": [
       "activeTab"

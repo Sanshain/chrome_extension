@@ -19,7 +19,8 @@
 				background-color:green;
 				cursor:pointer;
 				transition:0.5s;
-				outline:none;				
+				outline:none;
+				min-width:80vw;
 			}
 			button:hover{
 				background-color:#aa0000;
@@ -28,17 +29,21 @@
 				width:180px;
 				margin-left: 10px;
 			}
+			#show_links{
+				background-color:lightgreen;				
+			}
 		</style>
 		
 	</head>
 	<body>
 	
-		<h3>Веберите действие</h3>
+		<h3>Выберите действие</h3>
 	
 		<button id="contextBtn">Вернуть контекстное меню</button>
 		<button id="copyBtn">Разрешить копирование</button>
 		<button id="linksBtn">Получить адреса</button>
 		<button id="videoBtn">Получить url видео</button>
+		<button id="show_links">Показать адреса</button>
 		
 	</body>
 

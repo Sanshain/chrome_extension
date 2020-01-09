@@ -5,14 +5,6 @@ dom.get_s = document.querySelectorAll;
 //происходит при загрузке страницы
 //alert('content_page_initialize');
 
-var react = {
-	'Check' : Init,
-	'turn_menu' : Inject['GetcontextMnu'],
-	'Copy_Turn' : Inject['Copy_Turn'],
-	'get_links' : Turn_links,	
-	'video_Link' : video_Link
-};
-
 var Inject = {
 	Do : function(src){
 		var script=document.createElement('script');
@@ -29,6 +21,15 @@ var Inject = {
 Inject['GetcontextMnu']=Inject.Do.bind(null,"contextmenu");
 Inject['Copy_Turn']=  Inject.Do.bind ( null, "copyselect");
 
+
+var react = {
+	'Check' : Init,
+	'turn_menu' : Inject['GetcontextMnu'],
+	'Copy_Turn' : Inject['Copy_Turn'],
+	'get_links' : Turn_links,	
+	'video_Link' : video_Link
+};
+
 //двустороннее взаимодействие с расширением
 chrome.extension.onRequest.addListener(
 	function(request, sender, sendResponse) {
@@ -40,6 +41,10 @@ chrome.extension.onRequest.addListener(
 		
 	}
 );
+
+
+
+
 
 function Init(){
 	var video = dom.get('#video-js-0');
@@ -79,7 +84,8 @@ function Turn_links() {
 	save.title = 'сохранить';	
 	save.innerText = 'Save';
 	
-	content.value = JSON.stringify(links).replace(/,/g,',\n');
+	content.value = (dom.get('.c-section__title') || {}).innerText +' ';
+	content.value+=': '+JSON.stringify(links).replace(/,/g,',\n') + ',';
 	container.appendChild(content);
 	container.appendChild(close);
 	container.appendChild(save);
@@ -100,9 +106,14 @@ function Turn_links() {
 		container.parentNode.removeChild(container);
 		
 		//сохраняем содержимое в какой-то глобальный объект
+		//chrome.runtime.sendMessage('GetcontextMnu');
 	};	
 
 	alert('result');
+	
+	
+	content.focus();
+	content.setSelectionRange(0, content.value.length);
 	
 }
 
